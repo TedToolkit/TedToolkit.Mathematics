@@ -50,4 +50,16 @@ internal sealed class ConversionTests
         await Assert.That(nonConstantConverted).IsFalse();
         await Assert.That(nonConstantResult).IsEqualTo(default(double));
     }
+
+    /// <summary>
+    /// Verifies: should return false when checked conversion from source number would overflow coefficient type.
+    /// </summary>
+    [Test]
+    public async Task Should_return_false_when_checked_conversion_from_source_number_would_overflow_coefficient_type()
+    {
+        var converted = LimitPolynomial<byte, int>.TryConvertFromChecked(300, out var result);
+
+        await Assert.That(converted).IsFalse();
+        await Assert.That(result).IsEqualTo(LimitPolynomial<byte, int>.Zero);
+    }
 }

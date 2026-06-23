@@ -26,4 +26,14 @@ public enum LimitState
     /// The limit diverges to negative infinity.
     /// </summary>
     NEGATIVE_INFINITY = 2,
+
+    /// <summary>
+    /// The limit approaches zero from the positive side.
+    /// </summary>
+    POSITIVE_INFINITESIMAL = 3,
+
+    /// <summary>
+    /// The limit approaches zero from the negative side.
+    /// </summary>
+    NEGATIVE_INFINITESIMAL = 4,
 }

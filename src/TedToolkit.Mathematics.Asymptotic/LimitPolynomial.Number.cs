@@ -219,7 +219,7 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
     public static LimitPolynomial<TCoefficient, TExponent> operator +(LimitPolynomial<TCoefficient, TExponent> left,
         LimitPolynomial<TCoefficient, TExponent> right)
     {
-        return new([..left, ..right,]);
+        return new([.. left, .. right,]);
     }
 
     /// <inheritdoc />
@@ -576,6 +576,30 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
     /// <inheritdoc />
     public static LimitPolynomial<TCoefficient, TExponent> One { get; } =
         new(new PolynomialTerm<TCoefficient, TExponent>(TCoefficient.One, TExponent.Zero));
+
+    /// <summary>
+    /// Gets the canonical positive infinity value represented by <c>x</c>.
+    /// </summary>
+    public static LimitPolynomial<TCoefficient, TExponent> PositiveInfinity { get; } =
+        new(new PolynomialTerm<TCoefficient, TExponent>(TCoefficient.One, TExponent.One));
+
+    /// <summary>
+    /// Gets the canonical negative infinity value represented by <c>-x</c>.
+    /// </summary>
+    public static LimitPolynomial<TCoefficient, TExponent> NegativeInfinity { get; } =
+        new(new PolynomialTerm<TCoefficient, TExponent>(-TCoefficient.One, TExponent.One));
+
+    /// <summary>
+    /// Gets the canonical positive infinitesimal value represented by <c>x^-1</c>.
+    /// </summary>
+    public static LimitPolynomial<TCoefficient, TExponent> PositiveInfinitesimal { get; } =
+        new(new PolynomialTerm<TCoefficient, TExponent>(TCoefficient.One, -TExponent.One));
+
+    /// <summary>
+    /// Gets the canonical negative infinitesimal value represented by <c>-x^-1</c>.
+    /// </summary>
+    public static LimitPolynomial<TCoefficient, TExponent> NegativeInfinitesimal { get; } =
+        new(new PolynomialTerm<TCoefficient, TExponent>(-TCoefficient.One, -TExponent.One));
 
     /// <inheritdoc />
     public static int Radix { get; } = TCoefficient.Radix;

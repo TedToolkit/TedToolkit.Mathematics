@@ -33,4 +33,21 @@ internal sealed class CompareToTests
 
         await Assert.That(left.CompareTo(right)).IsLessThan(0);
     }
+
+    /// <summary>
+    /// Verifies: should compare remaining terms when leading terms are equal.
+    /// </summary>
+    [Test]
+    public async Task Should_compare_remaining_terms_when_leading_terms_are_equal()
+    {
+        var left = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(2, 3),
+            new PolynomialTerm<double, int>(1, 0));
+        var right = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(2, 3),
+            new PolynomialTerm<double, int>(-1, 0));
+
+        await Assert.That(left.CompareTo(right)).IsGreaterThan(0);
+        await Assert.That(right.CompareTo(left)).IsLessThan(0);
+    }
 }

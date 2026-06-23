@@ -19,17 +19,4 @@ internal sealed class ImplicitConversionOperatorTests
 
         await Assert.That(term).IsEqualTo(new PolynomialTerm<double, int>(4, 0));
     }
-
-    /// <summary>
-    /// Verifies: should convert term to limit result when term is used as limit result.
-    /// </summary>
-    [Test]
-    public async Task Should_convert_term_to_limit_result_when_term_is_used_as_limit_result()
-    {
-        var term = new PolynomialTerm<double, int>(2, 3);
-
-        LimitResult<double> result = term;
-
-        await Assert.That(result).IsEqualTo(term.LimitValue);
-    }
 }

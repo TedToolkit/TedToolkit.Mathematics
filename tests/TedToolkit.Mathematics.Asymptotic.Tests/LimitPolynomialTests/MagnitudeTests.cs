@@ -34,4 +34,17 @@ internal sealed class MagnitudeTests
         await Assert.That(LimitPolynomial<double, int>.MinMagnitude(smaller, larger)).IsEqualTo(smaller);
         await Assert.That(LimitPolynomial<double, int>.MinMagnitudeNumber(smaller, larger)).IsEqualTo(smaller);
     }
+
+    /// <summary>
+    /// Verifies: should break equal magnitude ties by ordinary comparison.
+    /// </summary>
+    [Test]
+    public async Task Should_break_equal_magnitude_ties_by_ordinary_comparison()
+    {
+        var negative = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(-5, 0));
+        var positive = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(5, 0));
+
+        await Assert.That(LimitPolynomial<double, int>.MaxMagnitude(negative, positive)).IsEqualTo(positive);
+        await Assert.That(LimitPolynomial<double, int>.MinMagnitude(negative, positive)).IsEqualTo(negative);
+    }
 }

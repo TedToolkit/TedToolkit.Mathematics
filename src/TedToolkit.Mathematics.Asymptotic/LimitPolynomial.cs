@@ -89,7 +89,28 @@ public readonly partial struct
     {
         get
         {
-            return LeadingTerm.LimitValue;
+            var resultValue = TCoefficient.Zero;
+            foreach (var term in _terms)
+            {
+                if (term.Exponent > TExponent.Zero)
+                {
+                    return term.Coefficient > TCoefficient.Zero
+                        ? new(LimitState.POSITIVE_INFINITY, TCoefficient.Zero)
+                        : new(LimitState.NEGATIVE_INFINITY, TCoefficient.Zero);
+                }
+
+                if (term.Exponent == TExponent.Zero)
+                {
+                    resultValue = term.Coefficient;
+                    continue;
+                }
+
+                return term.Coefficient > TCoefficient.Zero
+                    ? new(LimitState.POSITIVE_INFINITESIMAL, resultValue)
+                    : new(LimitState.NEGATIVE_INFINITESIMAL, resultValue);
+            }
+
+            return new(LimitState.FINITE, resultValue);
         }
     }
 
@@ -123,12 +144,6 @@ public readonly partial struct
         uint maxTerms = 10)
     {
         using var sb = ZString.CreateStringBuilder();
-
-        if (_terms.Any(t => t.Exponent != TExponent.Zero))
-        {
-            sb.Append(StringHelpers.LIMIT_PREFIX);
-        }
-
         if (_terms.Count > 1)
         {
             sb.Append('(');
@@ -145,8 +160,7 @@ public readonly partial struct
             count++;
             if (count is 1)
             {
-                sb.Append(polynomialTerm.Coefficient.ToString(coefficientFormat, formatProvider));
-                sb.Append(StringHelpers.ToX(polynomialTerm.Exponent, exponentFormat, formatProvider));
+                sb.Append(polynomialTerm.ToString(coefficientFormat, exponentFormat, formatProvider));
             }
             else if (count >= maxTerms)
             {
@@ -159,8 +173,7 @@ public readonly partial struct
                 sb.Append(' ');
                 sb.Append(key);
                 sb.Append(' ');
-                sb.Append(polynomialTerm.Coefficient.ToString(coefficientFormat, formatProvider).TrimStart(key));
-                sb.Append(StringHelpers.ToX(polynomialTerm.Exponent, exponentFormat, formatProvider));
+                sb.Append(polynomialTerm.ToString(coefficientFormat, exponentFormat, formatProvider).TrimStart(key));
             }
         }
 

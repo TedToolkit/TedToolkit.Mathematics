@@ -20,7 +20,7 @@ internal sealed class ToStringTests
             new PolynomialTerm<double, int>(-4, 1),
             new PolynomialTerm<double, int>(6, 0));
 
-        await Assert.That(polynomial.ToString()).IsEqualTo("lim[x→∞] (2x³ - 4x + 6)");
+        await Assert.That(polynomial.ToString()).IsEqualTo("(2\u03C9³ - 4\u03C9 + 6)");
     }
 
     /// <summary>
@@ -33,6 +33,45 @@ internal sealed class ToStringTests
             new PolynomialTerm<double, int>(12.5, 2),
             new PolynomialTerm<double, int>(-3.25, -1));
 
-        await Assert.That(polynomial.ToString("0.0", null)).IsEqualTo("lim[x→∞] (12.5x² - 3.3x⁻¹)");
+        await Assert.That(polynomial.ToString("0.0", null)).IsEqualTo("(12.5\u03C9² - 3.3\u03C9⁻¹)");
+    }
+
+    /// <summary>
+    /// Verifies: should support distinct coefficient and exponent formats when full overload is called.
+    /// </summary>
+    [Test]
+    public async Task Should_support_distinct_coefficient_and_exponent_formats_when_full_overload_is_called()
+    {
+        var polynomial = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(12.5, 12),
+            new PolynomialTerm<double, int>(-3.25, -2));
+
+        await Assert.That(polynomial.ToString("0.00", "00", null)).IsEqualTo("(12.50\u03C9¹² - 3.25\u03C9⁻⁰²)");
+    }
+
+    /// <summary>
+    /// Verifies: should truncate output when max terms limit is reached.
+    /// </summary>
+    [Test]
+    public async Task Should_truncate_output_when_max_terms_limit_is_reached()
+    {
+        var polynomial = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(5, 4),
+            new PolynomialTerm<double, int>(4, 3),
+            new PolynomialTerm<double, int>(3, 2),
+            new PolynomialTerm<double, int>(2, 1));
+
+        await Assert.That(polynomial.ToString(null, null, null, 3)).IsEqualTo("(5\u03C9⁴ + 4\u03C9³ + ...)");
+    }
+
+    /// <summary>
+    /// Verifies: should omit parentheses when polynomial has only one non-zero term.
+    /// </summary>
+    [Test]
+    public async Task Should_omit_parentheses_when_polynomial_has_only_one_non_zero_term()
+    {
+        var polynomial = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(2, 3));
+
+        await Assert.That(polynomial.ToString()).IsEqualTo("2\u03C9³");
     }
 }

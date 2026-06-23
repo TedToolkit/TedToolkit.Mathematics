@@ -1,8 +1,13 @@
 # TedToolkit.Mathematics.Asymptotic
 
-`TedToolkit.Mathematics.Asymptotic` is a small .NET library for modeling asymptotic expressions and comparing their behavior as `x -> +infinity`.
+`TedToolkit.Mathematics.Asymptotic` models polynomial-like asymptotic expressions as `x -> +infinity`.
 
-It is useful when you want code to reason about growth rate, leading terms, and limit behavior instead of treating these ideas as ad-hoc numeric rules.
+Use it when your code needs explicit reasoning about:
+
+- normalized terms
+- leading-order growth
+- limit classification
+- arithmetic over asymptotic expressions
 
 ## Installation
 
@@ -14,51 +19,36 @@ dotnet add package TedToolkit.Mathematics.Asymptotic
 
 ### `PolynomialTerm<TCoefficient, TExponent>`
 
-Represents one term of an asymptotic expression, such as:
+Represents a single term such as `3ω²`, `-5ω`, `7`, or `2ω⁻¹`.
 
-- `3x^2`
-- `-5x`
-- `7`
-- `2x^-1`
-
-Each term has:
-
-- a finite coefficient
-- an exponent
-
-For a zero coefficient, the exponent is normalized to `0`.
+- `TCoefficient` must satisfy `INumber<TCoefficient>`
+- `TExponent` must satisfy `ISignedNumber<TExponent>` and `INumber<TExponent>`
+- a zero coefficient is normalized to exponent `0`
 
 ### `LimitPolynomial<TCoefficient, TExponent>`
 
-Represents a normalized asymptotic expression made of multiple terms.
+Represents a normalized collection of terms ordered by descending exponent.
 
-When you construct it:
+During construction:
 
-- terms with the same exponent are merged by summing coefficients
-- zero terms are removed
-- terms are kept in descending exponent order
-- an all-zero expression becomes `0`
+- terms with the same exponent are merged
+- zero-coefficient terms are removed
+- terms are stored in descending exponent order
+- an all-zero input becomes a single zero term
 
-### `LimitResult<TValue>`
+### `LimitResult<TValue>` and `LimitState`
 
-Represents the limit of a term or expression as `x -> +infinity`.
+Represents the limit classification returned by `LimitValue`.
 
 Possible states are:
 
 - `FINITE`
 - `POSITIVE_INFINITY`
 - `NEGATIVE_INFINITY`
+- `POSITIVE_INFINITESIMAL`
+- `NEGATIVE_INFINITESIMAL`
 
 ## Basic Usage
-
-```csharp
-using TedToolkit.Mathematics.Asymptotic;
-
-var term = new PolynomialTerm<double, int>(3, 2);   // 3x^2
-var constant = new PolynomialTerm<double, int>(5);  // 5
-```
-
-Build an asymptotic expression from several terms:
 
 ```csharp
 using TedToolkit.Mathematics.Asymptotic;
@@ -69,9 +59,11 @@ var expression = new LimitPolynomial<double, int>(
     new PolynomialTerm<double, int>(-4, 1),
     new PolynomialTerm<double, int>(10, 0),
 ]);
+
+Console.WriteLine(expression);
 ```
 
-If you add duplicated exponents, they are merged automatically:
+If multiple terms use the same exponent, they are merged automatically:
 
 ```csharp
 var simplified = new LimitPolynomial<double, int>(
@@ -82,103 +74,66 @@ var simplified = new LimitPolynomial<double, int>(
     new PolynomialTerm<double, int>(1, 0),
 ]);
 
-// simplified is 1
+Console.WriteLine(simplified); // 1
 ```
 
-## Evaluating Limits
+## Limit Evaluation
 
-The limit is determined by the leading term.
+`LimitValue` is determined by the leading term.
+
+```csharp
+var polynomial = new LimitPolynomial<double, int>(
+[
+    new PolynomialTerm<double, int>(-2, 3),
+    new PolynomialTerm<double, int>(5, 0),
+]);
+
+Console.WriteLine(polynomial.LimitValue);
+```
+
+Examples of the returned classification:
+
+- positive coefficient with positive exponent -> positive infinity
+- negative coefficient with positive exponent -> negative infinity
+- exponent `0` -> finite constant
+- positive coefficient with negative exponent -> positive infinitesimal
+- negative coefficient with negative exponent -> negative infinitesimal
+
+## Growth Comparison
+
+Use `CompareGrowthRateTo` when only the leading term matters:
+
+```csharp
+var left = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(2, 3));
+var right = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 2));
+
+Console.WriteLine(left.CompareGrowthRateTo(right) > 0); // True
+```
+
+Use `EqualsGrowthRate` when two expressions should be treated as having the same leading-order behavior:
 
 ```csharp
 var a = new LimitPolynomial<double, int>(
 [
     new PolynomialTerm<double, int>(2, 3),
-    new PolynomialTerm<double, int>(-1, 1),
-]);
-
-Console.WriteLine(a.LimitValue); // +∞
-```
-
-Examples:
-
-- positive coefficient with positive exponent -> `+∞`
-- negative coefficient with positive exponent -> `-∞`
-- exponent `0` -> the finite constant value
-- negative exponent -> finite limit `0`
-
-```csharp
-Console.WriteLine(new PolynomialTerm<double, int>(4, 0).LimitValue);   // 4
-Console.WriteLine(new PolynomialTerm<double, int>(4, -2).LimitValue);  // 0
-Console.WriteLine(new PolynomialTerm<double, int>(-4, 3).LimitValue);  // -∞
-```
-
-## Comparing Growth Rate
-
-Use `CompareGrowthRateTo` when you care only about leading-order growth.
-
-```csharp
-var quadratic = new LimitPolynomial<double, int>(
-[
-    new PolynomialTerm<double, int>(1, 2),
-]);
-
-var linear = new LimitPolynomial<double, int>(
-[
-    new PolynomialTerm<double, int>(100, 1),
-]);
-
-Console.WriteLine(quadratic.CompareGrowthRateTo(linear) > 0); // True
-```
-
-Use `EqualsGrowthRate` when two expressions should be treated as having the same leading term:
-
-```csharp
-var left = new LimitPolynomial<double, int>(
-[
-    new PolynomialTerm<double, int>(2, 3),
     new PolynomialTerm<double, int>(1, 0),
 ]);
 
-var right = new LimitPolynomial<double, int>(
+var b = new LimitPolynomial<double, int>(
 [
     new PolynomialTerm<double, int>(2, 3),
     new PolynomialTerm<double, int>(-100, 1),
 ]);
 
-Console.WriteLine(left.EqualsGrowthRate(right)); // True
+Console.WriteLine(a.EqualsGrowthRate(b)); // True
 ```
 
-## Comparing Full Expressions
+## Arithmetic and Comparison
 
-`LimitPolynomial<TCoefficient, TExponent>` also supports numeric-style comparison operators.
+`LimitPolynomial<TCoefficient, TExponent>` supports:
 
-These comparisons are lexicographic by exponent first and coefficient second, not only by final limit category.
-
-```csharp
-var left = new LimitPolynomial<double, int>(
-[
-    new PolynomialTerm<double, int>(1, 2),
-    new PolynomialTerm<double, int>(3, 0),
-]);
-
-var right = new LimitPolynomial<double, int>(
-[
-    new PolynomialTerm<double, int>(1, 2),
-    new PolynomialTerm<double, int>(1, 0),
-]);
-
-Console.WriteLine(left > right); // True
-```
-
-## Arithmetic
-
-You can combine expressions with the usual operators:
-
-- `+`
-- `-`
-- `*`
-- `/`
-- `%`
+- comparison operators: `==`, `!=`, `<`, `<=`, `>`, `>=`
+- arithmetic operators: `+`, `-`, unary `+`, unary `-`, `*`, `/`, `%`
 
 ```csharp
 var x2 = new LimitPolynomial<double, int>([new PolynomialTerm<double, int>(1, 2)]);
@@ -188,38 +143,36 @@ var sum = x2 + x;
 var product = x2 * x;
 var quotient = product / x2;
 
-Console.WriteLine(sum);      // lim[x→∞] (x² + x)
-Console.WriteLine(product);  // lim[x→∞] x³
-Console.WriteLine(quotient); // lim[x→∞] x
+Console.WriteLine(sum);
+Console.WriteLine(product);
+Console.WriteLine(quotient);
 ```
 
 ## Formatting
 
-Both `PolynomialTerm<TCoefficient, TExponent>` and `LimitPolynomial<TCoefficient, TExponent>` provide formatted string output.
+`PolynomialTerm<TCoefficient, TExponent>` and `LimitPolynomial<TCoefficient, TExponent>` support formatted string output.
 
 ```csharp
-var expression = new LimitPolynomial<double, int>(
+var polynomial = new LimitPolynomial<double, int>(
 [
-    new PolynomialTerm<double, int>(3.5, 2),
-    new PolynomialTerm<double, int>(-1.25, 1),
-    new PolynomialTerm<double, int>(8, 0),
+    new PolynomialTerm<double, int>(12.5, 12),
+    new PolynomialTerm<double, int>(-3.25, -2),
 ]);
 
-Console.WriteLine(expression.ToString("0.##", "0", null));
+Console.WriteLine(polynomial.ToString("0.00", "00", null));
 ```
 
-The default string form is intended to be readable for asymptotic notation, for example `lim[x→∞] (x² + x)`. For multi-term expressions, output may be truncated with `maxTerms`.
+The default string form uses `ω` notation, for example `(2ω³ - 4ω + 6)`.
 
 ## Notes
 
-- This library models expressions as `x -> +infinity`.
-- Coefficients must be finite values.
-- Parsing from strings is not currently supported.
-- Generic parameters must satisfy .NET numeric interfaces such as `INumber<T>` and `ISignedNumber<T>`.
+- This package models behavior only for `x -> +infinity`.
+- `LimitPolynomial<TCoefficient, TExponent>` implements numeric-style interfaces and exposes parse members, but parsing is not currently supported.
+- Generic parameters must satisfy the .NET numeric interface constraints used by the public types.
 
-## Supported Frameworks
+## Target Frameworks
 
-- .NET 7.0
-- .NET 8.0
-- .NET 9.0
-- .NET 10.0
+- `net7.0`
+- `net8.0`
+- `net9.0`
+- `net10.0`
