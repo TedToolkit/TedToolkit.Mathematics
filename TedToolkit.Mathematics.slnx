@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/build/">
+    <Project Path="Build/Build.csproj">
+      <Build Solution="Debug|*" Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/SolutionItems/">
+    <File Path=".editorconfig" />
+    <File Path=".github\workflows\build.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/TedToolkit.Mathematics.Asymptotic/TedToolkit.Mathematics.Asymptotic.csproj" />
+    <Project Path="src/TedToolkit.Mathematics.Interval/TedToolkit.Mathematics.Interval.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TedToolkit.Mathematics.Asymptotic.Tests/TedToolkit.Mathematics.Asymptotic.Tests.csproj" />
+    <Project Path="tests/TedToolkit.Mathematics.Interval.Tests/TedToolkit.Mathematics.Interval.Tests.csproj" />
+  </Folder>
+</Solution>

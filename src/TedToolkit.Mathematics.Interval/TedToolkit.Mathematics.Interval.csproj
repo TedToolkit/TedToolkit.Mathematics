@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\externals\TedToolkit\props\CodeAnalysis.props"/>
+  <Import Project="..\..\externals\TedToolkit\props\NugetPackage.props"/>
+  <Import Project="..\..\externals\TedToolkit\props\AlmostAllFrameworks.props"/>
+
+  <PropertyGroup>
+    <Title>Interval</Title>
+    <Description>.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZString" />
+  </ItemGroup>
+
+</Project>
