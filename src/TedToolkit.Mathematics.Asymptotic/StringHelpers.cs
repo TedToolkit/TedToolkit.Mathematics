@@ -1,3 +1,10 @@
+﻿// -----------------------------------------------------------------------
+// <copyright file="StringHelpers.cs" company="TedToolkit">
+// Copyright (c) TedToolkit. All rights reserved.
+// Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
 using System.Buffers;
 using System.Numerics;
 
@@ -5,10 +12,24 @@ using Cysharp.Text;
 
 namespace TedToolkit.Mathematics.Asymptotic;
 
+/// <summary>
+/// Provides formatting helpers for asymptotic expressions.
+/// </summary>
 internal static class StringHelpers
 {
+    /// <summary>
+    /// The textual prefix used when formatting limits as <c>x</c> approaches infinity.
+    /// </summary>
     public const string LIMIT_PREFIX = "lim[x→∞] ";
 
+    /// <summary>
+    /// Formats an exponent as an <c>x</c>-term using superscript digits when possible.
+    /// </summary>
+    /// <typeparam name="TExponent">The numeric type used for the exponent.</typeparam>
+    /// <param name="exponent">The exponent to format.</param>
+    /// <param name="format">The optional exponent format string.</param>
+    /// <param name="formatProvider">The optional format provider.</param>
+    /// <returns>A formatted <c>x</c>-term.</returns>
     public static string ToX<TExponent>(TExponent exponent, string? format, IFormatProvider? formatProvider)
         where TExponent : INumber<TExponent>
     {
@@ -28,7 +49,14 @@ internal static class StringHelpers
         return sb.ToString();
     }
 
-    public static bool TryCopyTo(ReadOnlySpan<char> source, Span<char> destination, ref int charsWritten)
+    /// <summary>
+    /// Copies a character span into the destination buffer.
+    /// </summary>
+    /// <param name="source">The source characters to copy.</param>
+    /// <param name="destination">The destination buffer.</param>
+    /// <param name="charsWritten">The number of characters already written and updated after the copy.</param>
+    /// <returns><see langword="true"/> if the copy succeeded; otherwise, <see langword="false"/>.</returns>
+    public static bool TryCopyTo(in ReadOnlySpan<char> source, in Span<char> destination, ref int charsWritten)
     {
         if (source.Length > destination.Length - charsWritten)
         {
@@ -40,7 +68,14 @@ internal static class StringHelpers
         return true;
     }
 
-    public static bool TryCopyTo(char source, Span<char> destination, ref int charsWritten)
+    /// <summary>
+    /// Copies a single character into the destination buffer.
+    /// </summary>
+    /// <param name="source">The character to copy.</param>
+    /// <param name="destination">The destination buffer.</param>
+    /// <param name="charsWritten">The number of characters already written and updated after the copy.</param>
+    /// <returns><see langword="true"/> if the copy succeeded; otherwise, <see langword="false"/>.</returns>
+    public static bool TryCopyTo(char source, in Span<char> destination, ref int charsWritten)
     {
         if (charsWritten >= destination.Length)
         {
@@ -52,7 +87,22 @@ internal static class StringHelpers
         return true;
     }
 
-    public static bool TryFormatX<TExponent>(TExponent exponent, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? formatProvider)
+    /// <summary>
+    /// Formats an exponent as an <c>x</c>-term into a destination buffer.
+    /// </summary>
+    /// <typeparam name="TExponent">The numeric type used for the exponent.</typeparam>
+    /// <param name="exponent">The exponent to format.</param>
+    /// <param name="destination">The destination buffer.</param>
+    /// <param name="charsWritten">The number of characters written to <paramref name="destination"/>.</param>
+    /// <param name="format">The optional exponent format string.</param>
+    /// <param name="formatProvider">The optional format provider.</param>
+    /// <returns><see langword="true"/> if formatting succeeded; otherwise, <see langword="false"/>.</returns>
+    public static bool TryFormatX<TExponent>(
+        TExponent exponent,
+        in Span<char> destination,
+        out int charsWritten,
+        in ReadOnlySpan<char> format,
+        IFormatProvider? formatProvider)
         where TExponent : INumber<TExponent>
     {
         charsWritten = 0;

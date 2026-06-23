@@ -1,20 +1,52 @@
-using System.Buffers;
+// -----------------------------------------------------------------------
+// <copyright file="PolynomialTerm.cs" company="TedToolkit">
+// Copyright (c) TedToolkit. All rights reserved.
+// Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
 using System.Numerics;
+
+using Cysharp.Text;
 
 namespace TedToolkit.Mathematics.Asymptotic;
 
+/// <summary>
+/// Represents a single term in a limit polynomial.
+/// </summary>
+/// <typeparam name="TCoefficient">The numeric type used for coefficients.</typeparam>
+/// <typeparam name="TExponent">The numeric type used for exponents.</typeparam>
 public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
     where TCoefficient : INumber<TCoefficient>
     where TExponent : ISignedNumber<TExponent>, INumber<TExponent>
 {
+    /// <summary>
+    /// Gets the coefficient of the term.
+    /// </summary>
     public TCoefficient Coefficient { get; }
+
+    /// <summary>
+    /// Gets the exponent of the term.
+    /// </summary>
     public TExponent Exponent { get; }
 
+    /// <summary>
+    /// Initializes a constant term.
+    /// </summary>
+    /// <param name="coefficient">The coefficient of the constant term.</param>
     public PolynomialTerm(TCoefficient coefficient)
         : this(coefficient, TExponent.Zero)
     {
     }
 
+    /// <summary>
+    /// Initializes a polynomial term with the specified coefficient and exponent.
+    /// </summary>
+    /// <param name="coefficient">The coefficient of the term.</param>
+    /// <param name="exponent">The exponent of the term.</param>
+    /// <exception cref="ArgumentException">
+    /// Thrown when <paramref name="coefficient"/> or <paramref name="exponent"/> is not a supported finite value.
+    /// </exception>
     public PolynomialTerm(TCoefficient coefficient, TExponent exponent)
     {
         if (TCoefficient.IsNaN(coefficient))
@@ -36,16 +68,27 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
         Exponent = TCoefficient.IsZero(coefficient) ? TExponent.Zero : exponent;
     }
 
+    /// <summary>
+    /// Converts a coefficient into a constant polynomial term.
+    /// </summary>
+    /// <param name="coefficient">The coefficient to convert.</param>
     public static implicit operator PolynomialTerm<TCoefficient, TExponent>(TCoefficient coefficient)
     {
         return new(coefficient);
     }
 
-    public static implicit operator LimitResult<TCoefficient>(PolynomialTerm<TCoefficient, TExponent> term)
+    /// <summary>
+    /// Converts a polynomial term to its limit result.
+    /// </summary>
+    /// <param name="term">The term to evaluate.</param>
+    public static implicit operator LimitResult<TCoefficient>(in PolynomialTerm<TCoefficient, TExponent> term)
     {
         return term.LimitValue;
     }
 
+    /// <summary>
+    /// Gets the limit contributed by this term as <c>x</c> approaches infinity.
+    /// </summary>
     public LimitResult<TCoefficient> LimitValue
     {
         get
@@ -69,94 +112,34 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
         }
     }
 
+    /// <summary>
+    /// Formats the term using separate coefficient and exponent format strings.
+    /// </summary>
+    /// <param name="coefficientFormat">The optional coefficient format string.</param>
+    /// <param name="exponentFormat">The optional exponent format string.</param>
+    /// <param name="formatProvider">The optional format provider.</param>
+    /// <returns>The formatted term.</returns>
     public string ToString(string? coefficientFormat, string? exponentFormat, IFormatProvider? formatProvider)
     {
-        return FormatToString(coefficientFormat.AsSpan(), exponentFormat.AsSpan(), formatProvider, omitCoefficientSign: false);
+        using var sb = ZString.CreateStringBuilder();
+        if (Exponent != TExponent.Zero)
+        {
+            sb.Append(StringHelpers.LIMIT_PREFIX);
+        }
+
+        sb.Append(Coefficient.ToString(coefficientFormat, formatProvider));
+
+        if (Exponent != TExponent.Zero)
+        {
+            sb.Append(StringHelpers.ToX(Exponent, exponentFormat, formatProvider));
+        }
+
+        return sb.ToString();
     }
 
-    internal bool TryFormat(
-        Span<char> destination,
-        out int charsWritten,
-        ReadOnlySpan<char> coefficientFormat,
-        ReadOnlySpan<char> exponentFormat,
-        IFormatProvider? formatProvider,
-        bool omitCoefficientSign)
-    {
-        charsWritten = 0;
-
-        if (TCoefficient.IsZero(Coefficient))
-        {
-            return TCoefficient.Zero.TryFormat(destination, out charsWritten, coefficientFormat, formatProvider);
-        }
-
-        var coefficient = omitCoefficientSign && Coefficient < TCoefficient.Zero
-            ? TCoefficient.Abs(Coefficient)
-            : Coefficient;
-
-        if (!coefficient.TryFormat(destination, out charsWritten, coefficientFormat, formatProvider))
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        if (Exponent == TExponent.Zero)
-        {
-            return true;
-        }
-
-        if (!StringHelpers.TryCopyTo(StringHelpers.LIMIT_PREFIX, destination, ref charsWritten))
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        if (!StringHelpers.TryFormatX(Exponent, destination[charsWritten..], out var exponentCharsWritten, exponentFormat, formatProvider))
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        charsWritten += exponentCharsWritten;
-        return true;
-    }
-
+    /// <inheritdoc />
     public override string ToString()
     {
         return ToString(null, null, null);
-    }
-
-    private string FormatToString(
-        ReadOnlySpan<char> coefficientFormat,
-        ReadOnlySpan<char> exponentFormat,
-        IFormatProvider? formatProvider,
-        bool omitCoefficientSign)
-    {
-        Span<char> initialBuffer = stackalloc char[64];
-        char[]? rentedBuffer = null;
-
-        try
-        {
-            var buffer = initialBuffer;
-            var charsWritten = 0;
-            while (!TryFormat(buffer, out charsWritten, coefficientFormat, exponentFormat, formatProvider, omitCoefficientSign))
-            {
-                if (rentedBuffer is not null)
-                {
-                    ArrayPool<char>.Shared.Return(rentedBuffer);
-                }
-
-                rentedBuffer = ArrayPool<char>.Shared.Rent(buffer.Length * 2);
-                buffer = rentedBuffer;
-            }
-
-            return new string(buffer[..charsWritten]);
-        }
-        finally
-        {
-            if (rentedBuffer is not null)
-            {
-                ArrayPool<char>.Shared.Return(rentedBuffer);
-            }
-        }
     }
 }

@@ -5,8 +5,8 @@
   <Import Project="..\..\externals\TedToolkit\props\AlmostAllFrameworks.props"/>
 
   <PropertyGroup>
-    <Title>Interval</Title>
-    <Description>.</Description>
+    <Title>TedToolkit.Mathematics.Interval</Title>
+    <Description>A small .NET library for working with mathematical intervals and normalized sets of intervals.</Description>
   </PropertyGroup>
 
   <ItemGroup>

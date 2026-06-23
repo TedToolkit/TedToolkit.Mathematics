@@ -1,8 +1,16 @@
+// -----------------------------------------------------------------------
+// <copyright file="PolynomialTerm.Number.cs" company="TedToolkit">
+// Copyright (c) TedToolkit. All rights reserved.
+// Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
+// </copyright>
+// -----------------------------------------------------------------------
+
 namespace TedToolkit.Mathematics.Asymptotic;
 
 public readonly partial record struct PolynomialTerm<TCoefficient, TExponent> :
     IComparable<PolynomialTerm<TCoefficient, TExponent>>
 {
+    /// <inheritdoc />
     public int CompareTo(PolynomialTerm<TCoefficient, TExponent> other)
     {
         var sign = TCoefficient.Sign(Coefficient);
@@ -28,94 +36,100 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent> :
         return Coefficient.CompareTo(other.Coefficient);
     }
 
-    internal PolynomialTerm<TCoefficient, TExponent> Add(PolynomialTerm<TCoefficient, TExponent> other)
-    {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(other.Exponent, Exponent);
-        return new(Coefficient + other.Coefficient, Exponent);
-    }
-
-    internal PolynomialTerm<TCoefficient, TExponent> Substract(PolynomialTerm<TCoefficient, TExponent> other)
-    {
-        ArgumentOutOfRangeException.ThrowIfNotEqual(other.Exponent, Exponent);
-        return new(Coefficient - other.Coefficient, Exponent);
-    }
-
-    internal PolynomialTerm<TCoefficient, TExponent> Multiply(PolynomialTerm<TCoefficient, TExponent> other)
+    /// <summary>
+    /// Multiplies this term by another term.
+    /// </summary>
+    /// <param name="other">The term to multiply by.</param>
+    /// <returns>The product term.</returns>
+    internal PolynomialTerm<TCoefficient, TExponent> Multiply(in PolynomialTerm<TCoefficient, TExponent> other)
     {
         return new(Coefficient * other.Coefficient, Exponent + other.Exponent);
     }
 
-    internal PolynomialTerm<TCoefficient, TExponent> Divide(PolynomialTerm<TCoefficient, TExponent> other)
+    /// <summary>
+    /// Divides this term by another term.
+    /// </summary>
+    /// <param name="other">The divisor term.</param>
+    /// <returns>The quotient term.</returns>
+    internal PolynomialTerm<TCoefficient, TExponent> Divide(in PolynomialTerm<TCoefficient, TExponent> other)
     {
         return new(Coefficient / other.Coefficient, Exponent - other.Exponent);
     }
 
-    internal PolynomialTerm<TCoefficient, TExponent> Module(PolynomialTerm<TCoefficient, TExponent> other)
+    /// <summary>
+    /// Gets a value indicating whether the term has a finite limit as <c>x</c> approaches infinity.
+    /// </summary>
+    internal bool IsFinite
     {
-        if (Coefficient == TCoefficient.Zero)
+        get
         {
-            throw new DivideByZeroException();
+            return Exponent <= TExponent.Zero;
         }
-
-        return Exponent.CompareTo(Exponent) < 0
-            ? this
-            : new(TCoefficient.Zero, TExponent.Zero);
     }
 
-    internal PolynomialTerm<TCoefficient, TExponent> Abs()
-    {
-        return new(TCoefficient.Abs(Coefficient), Exponent);
-    }
-
-    internal bool IsEvenInteger
-        => Exponent == TExponent.Zero && TCoefficient.IsEvenInteger(Coefficient);
-
-    internal bool IsFinite => Exponent <= TExponent.Zero;
-
+    /// <summary>
+    /// Gets a value indicating whether the term diverges to infinity in magnitude.
+    /// </summary>
     internal bool IsInfinity
-        => Exponent > TExponent.Zero;
-
-    internal bool IsInteger
-        => Exponent < TExponent.Zero || Exponent == TExponent.Zero && TCoefficient.IsInteger(Coefficient);
-
-    internal bool IsNegative => Coefficient < TCoefficient.Zero;
-
-    internal bool IsNegativeInfinity => IsInfinity && IsNegative;
-
-    internal bool IsNormal
-        => !IsZero && !IsSubnormal && !IsInfinity;
-
-    internal bool IsOddInteger
-        => Exponent == TExponent.Zero && TCoefficient.IsOddInteger(Coefficient);
-
-    internal bool IsPositive => Coefficient > TCoefficient.Zero;
-
-    internal bool IsPositiveInfinity => IsInfinity && IsPositive;
-
-    internal bool IsSubnormal
-        => TCoefficient.IsSubnormal(Coefficient) && TExponent.IsSubnormal(Exponent);
-
-    internal bool IsZero => TCoefficient.IsZero(Coefficient);
-
-    internal PolynomialTerm<TCoefficient, TExponent> MaxMagnitude(PolynomialTerm<TCoefficient, TExponent> other)
     {
-        var magnitudeCompare = Abs().CompareTo(other.Abs());
-        if (magnitudeCompare != 0)
+        get
         {
-            return magnitudeCompare > 0 ? this : other;
+            return Exponent > TExponent.Zero;
         }
-
-        return this.CompareTo(other) >= 0 ? this : other;
     }
 
-    internal PolynomialTerm<TCoefficient, TExponent> MinMagnitude(PolynomialTerm<TCoefficient, TExponent> other)
+    /// <summary>
+    /// Gets a value indicating whether the coefficient is negative.
+    /// </summary>
+    internal bool IsNegative
     {
-        var magnitudeCompare = Abs().CompareTo(other.Abs());
-        if (magnitudeCompare != 0)
+        get
         {
-            return magnitudeCompare < 0 ? this : other;
+            return Coefficient < TCoefficient.Zero;
         }
+    }
 
-        return CompareTo(other) <= 0 ? this : other;
+    /// <summary>
+    /// Gets a value indicating whether the term diverges to negative infinity.
+    /// </summary>
+    internal bool IsNegativeInfinity
+    {
+        get
+        {
+            return IsInfinity && IsNegative;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the coefficient is positive.
+    /// </summary>
+    internal bool IsPositive
+    {
+        get
+        {
+            return Coefficient > TCoefficient.Zero;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the term diverges to positive infinity.
+    /// </summary>
+    internal bool IsPositiveInfinity
+    {
+        get
+        {
+            return IsInfinity && IsPositive;
+        }
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether the coefficient is zero.
+    /// </summary>
+    internal bool IsZero
+    {
+        get
+        {
+            return TCoefficient.IsZero(Coefficient);
+        }
     }
 }

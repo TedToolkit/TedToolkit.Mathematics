@@ -191,9 +191,9 @@ public readonly record struct Interval<TData>
 
         using var builder = ZString.CreateStringBuilder();
         builder.Append(Min.Type == BoundaryType.CLOSED ? "[" : "(");
-        builder.Append(Min);
+        builder.Append(Min.Value);
         builder.Append(", ");
-        builder.Append(Max);
+        builder.Append(Max.Value);
         builder.Append(Max.Type == BoundaryType.CLOSED ? "]" : ")");
         return builder.ToString();
     }
