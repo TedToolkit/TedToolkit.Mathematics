@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class CreateTests
 {
+    /// <summary>
+    /// Verifies: should preserve endpoint order when start is less than end.
+    /// </summary>
     [Test]
     public async Task Should_preserve_endpoint_order_when_start_is_less_than_end()
     {
@@ -19,6 +22,9 @@ internal sealed class CreateTests
         await Assert.That(interval.Max).IsEqualTo(new IntervalEnd<int>(3));
     }
 
+    /// <summary>
+    /// Verifies: should swap endpoints when start is greater than end.
+    /// </summary>
     [Test]
     public async Task Should_swap_endpoints_when_start_is_greater_than_end()
     {

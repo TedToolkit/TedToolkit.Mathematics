@@ -9,13 +9,21 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class IncrementOperatorTests
 {
+    /// <summary>
+    /// Verifies: should add one to constant term when increment operator is used.
+    /// </summary>
     [Test]
     public async Task Should_add_one_to_constant_term_when_increment_operator_is_used()
     {
-        var value = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(2, 3), new PolynomialTerm<double, int>(6, 0));
+        var value = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(2, 3),
+            new PolynomialTerm<double, int>(6, 0));
 
         var result = ++value;
 
-        await Assert.That(result).IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(2, 3), new PolynomialTerm<double, int>(7, 0)));
+        await Assert.That(result).IsEqualTo(
+            new LimitPolynomial<double, int>(
+                new PolynomialTerm<double, int>(2, 3),
+                new PolynomialTerm<double, int>(7, 0)));
     }
 }

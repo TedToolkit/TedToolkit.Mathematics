@@ -9,10 +9,16 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class TermsTests
 {
+    /// <summary>
+    /// Verifies: should expose terms in descending exponent order when terms are enumerated.
+    /// </summary>
     [Test]
     public async Task Should_expose_terms_in_descending_exponent_order_when_terms_are_enumerated()
     {
-        var polynomial = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 0), new PolynomialTerm<double, int>(2, 3), new PolynomialTerm<double, int>(4, 1));
+        var polynomial = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(1, 0),
+            new PolynomialTerm<double, int>(2, 3),
+            new PolynomialTerm<double, int>(4, 1));
 
         var terms = polynomial.Terms.ToArray();
 

@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class IntersectTests
 {
+    /// <summary>
+    /// Verifies: should return empty set when either side is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_empty_set_when_either_side_is_empty()
     {
@@ -25,6 +28,9 @@ internal sealed class IntersectTests
         await Assert.That(result.IsEmpty).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should return shared portions when sets overlap.
+    /// </summary>
     [Test]
     public async Task Should_return_shared_portions_when_sets_overlap()
     {

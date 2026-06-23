@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class CompareGrowthRateToTests
 {
+    /// <summary>
+    /// Verifies: should compare leading terms when growth rate is compared.
+    /// </summary>
     [Test]
     public async Task Should_compare_leading_terms_when_growth_rate_is_compared()
     {

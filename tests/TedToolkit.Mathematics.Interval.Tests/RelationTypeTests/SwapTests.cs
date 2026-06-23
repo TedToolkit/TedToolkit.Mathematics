@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.RelationTypeTests;
 
 internal sealed class SwapTests
 {
+    /// <summary>
+    /// Verifies: should swap subset and superset when relation is directional.
+    /// </summary>
     [Test]
     public async Task Should_swap_subset_and_superset_when_relation_is_directional()
     {
@@ -16,6 +19,9 @@ internal sealed class SwapTests
         await Assert.That(RelationType.ProperSuperset.Swap()).IsEqualTo(RelationType.ProperSubset);
     }
 
+    /// <summary>
+    /// Verifies: should preserve symmetric relations when relation is swapped.
+    /// </summary>
     [Test]
     public async Task Should_preserve_symmetric_relations_when_relation_is_swapped()
     {

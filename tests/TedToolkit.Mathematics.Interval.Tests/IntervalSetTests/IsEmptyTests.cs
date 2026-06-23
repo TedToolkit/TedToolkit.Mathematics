@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class IsEmptyTests
 {
+    /// <summary>
+    /// Verifies: should return true when no non empty intervals remain after normalization.
+    /// </summary>
     [Test]
     public async Task Should_return_true_when_no_non_empty_intervals_remain_after_normalization()
     {
@@ -22,6 +25,9 @@ internal sealed class IsEmptyTests
         await Assert.That(set.IsEmpty).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should return false when set contains any interval.
+    /// </summary>
     [Test]
     public async Task Should_return_false_when_set_contains_any_interval()
     {

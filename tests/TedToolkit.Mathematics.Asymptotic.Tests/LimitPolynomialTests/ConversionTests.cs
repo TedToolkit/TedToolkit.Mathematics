@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class ConversionTests
 {
+    /// <summary>
+    /// Verifies: should create constant polynomial when value is converted from other number type.
+    /// </summary>
     [Test]
     public async Task Should_create_constant_polynomial_when_value_is_converted_from_other_number_type()
     {
@@ -24,6 +27,9 @@ internal sealed class ConversionTests
         await Assert.That(truncatingResult).IsEqualTo(checkedResult);
     }
 
+    /// <summary>
+    /// Verifies: should convert only constant polynomials to other number types.
+    /// </summary>
     [Test]
     public async Task Should_convert_only_constant_polynomials_to_other_number_types()
     {

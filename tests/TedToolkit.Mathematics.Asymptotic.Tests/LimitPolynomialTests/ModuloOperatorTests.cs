@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class ModuloOperatorTests
 {
+    /// <summary>
+    /// Verifies: should return remainder when polynomials are divided.
+    /// </summary>
     [Test]
     public async Task Should_return_remainder_when_polynomials_are_divided()
     {

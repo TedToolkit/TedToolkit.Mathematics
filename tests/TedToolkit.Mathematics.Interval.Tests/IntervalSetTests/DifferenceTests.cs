@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class DifferenceTests
 {
+    /// <summary>
+    /// Verifies: should return original set when other set is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_original_set_when_other_set_is_empty()
     {
@@ -25,6 +28,9 @@ internal sealed class DifferenceTests
         await Assert.That(result).IsEqualTo(current);
     }
 
+    /// <summary>
+    /// Verifies: should split interval when middle segment is subtracted.
+    /// </summary>
     [Test]
     public async Task Should_split_interval_when_middle_segment_is_subtracted()
     {

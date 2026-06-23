@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class UnionTests
 {
+    /// <summary>
+    /// Verifies: should return other set when current set is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_other_set_when_current_set_is_empty()
     {
@@ -25,6 +28,9 @@ internal sealed class UnionTests
         await Assert.That(result).IsEqualTo(other);
     }
 
+    /// <summary>
+    /// Verifies: should merge intervals from both sets when union is taken.
+    /// </summary>
     [Test]
     public async Task Should_merge_intervals_from_both_sets_when_union_is_taken()
     {

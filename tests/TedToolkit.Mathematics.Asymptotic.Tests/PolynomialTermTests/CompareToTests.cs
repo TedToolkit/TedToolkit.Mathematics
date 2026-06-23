@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.PolynomialTermTests;
 
 internal sealed class CompareToTests
 {
+    /// <summary>
+    /// Verifies: should order by sign before degree when terms have different signs.
+    /// </summary>
     [Test]
     public async Task Should_order_by_sign_before_degree_when_terms_have_different_signs()
     {
@@ -19,6 +22,9 @@ internal sealed class CompareToTests
         await Assert.That(positive.CompareTo(negative)).IsGreaterThan(0);
     }
 
+    /// <summary>
+    /// Verifies: should order positive terms by exponent when signs match.
+    /// </summary>
     [Test]
     public async Task Should_order_positive_terms_by_exponent_when_signs_match()
     {
@@ -29,6 +35,9 @@ internal sealed class CompareToTests
         await Assert.That(higher.CompareTo(lower)).IsGreaterThan(0);
     }
 
+    /// <summary>
+    /// Verifies: should order negative terms by reverse exponent when signs match.
+    /// </summary>
     [Test]
     public async Task Should_order_negative_terms_by_reverse_exponent_when_signs_match()
     {

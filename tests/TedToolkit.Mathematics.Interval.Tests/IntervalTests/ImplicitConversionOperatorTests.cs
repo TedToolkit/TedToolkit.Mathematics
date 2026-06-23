@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class ImplicitConversionOperatorTests
 {
+    /// <summary>
+    /// Verifies: should convert interval to single element set when interval is assigned to set.
+    /// </summary>
     [Test]
     public async Task Should_convert_interval_to_single_element_set_when_interval_is_assigned_to_set()
     {

@@ -33,6 +33,11 @@ internal static class StringHelpers
     public static string ToX<TExponent>(TExponent exponent, string? format, IFormatProvider? formatProvider)
         where TExponent : INumber<TExponent>
     {
+        if (exponent == TExponent.Zero)
+        {
+            return "";
+        }
+
         using var sb = ZString.CreateStringBuilder();
         sb.Append('x');
         if (exponent == TExponent.One)

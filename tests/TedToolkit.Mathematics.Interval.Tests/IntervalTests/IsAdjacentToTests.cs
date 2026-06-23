@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class IsAdjacentToTests
 {
+    /// <summary>
+    /// Verifies: should return true when intervals touch at closed boundary.
+    /// </summary>
     [Test]
     public async Task Should_return_true_when_intervals_touch_at_closed_boundary()
     {
@@ -19,6 +22,9 @@ internal sealed class IsAdjacentToTests
         await Assert.That(right.IsAdjacentTo(left)).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should return false when intervals only touch at open boundaries.
+    /// </summary>
     [Test]
     public async Task Should_return_false_when_intervals_only_touch_at_open_boundaries()
     {

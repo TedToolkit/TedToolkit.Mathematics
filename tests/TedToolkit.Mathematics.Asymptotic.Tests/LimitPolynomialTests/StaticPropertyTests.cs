@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class StaticPropertyTests
 {
+    /// <summary>
+    /// Verifies: should expose expected identity values when static properties are read.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_identity_values_when_static_properties_are_read()
     {

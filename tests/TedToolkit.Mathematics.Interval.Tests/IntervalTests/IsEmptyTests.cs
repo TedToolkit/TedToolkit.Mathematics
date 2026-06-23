@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class IsEmptyTests
 {
+    /// <summary>
+    /// Verifies: should return true when equal endpoints have an open boundary.
+    /// </summary>
     [Test]
     public async Task Should_return_true_when_equal_endpoints_have_an_open_boundary()
     {
@@ -20,6 +23,9 @@ internal sealed class IsEmptyTests
         await Assert.That(interval.IsEmpty).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should return false when equal endpoints are both closed.
+    /// </summary>
     [Test]
     public async Task Should_return_false_when_equal_endpoints_are_both_closed()
     {

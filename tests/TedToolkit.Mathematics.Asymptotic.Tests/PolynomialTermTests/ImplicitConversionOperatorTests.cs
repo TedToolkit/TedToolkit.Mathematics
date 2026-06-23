@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.PolynomialTermTests;
 
 internal sealed class ImplicitConversionOperatorTests
 {
+    /// <summary>
+    /// Verifies: should convert coefficient to constant term when value is assigned directly.
+    /// </summary>
     [Test]
     public async Task Should_convert_coefficient_to_constant_term_when_value_is_assigned_directly()
     {
@@ -17,6 +20,9 @@ internal sealed class ImplicitConversionOperatorTests
         await Assert.That(term).IsEqualTo(new PolynomialTerm<double, int>(4, 0));
     }
 
+    /// <summary>
+    /// Verifies: should convert term to limit result when term is used as limit result.
+    /// </summary>
     [Test]
     public async Task Should_convert_term_to_limit_result_when_term_is_used_as_limit_result()
     {

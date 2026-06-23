@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class ClassificationTests
 {
+    /// <summary>
+    /// Verifies: should report constant polynomial characteristics when value is integral constant.
+    /// </summary>
     [Test]
     public async Task Should_report_constant_polynomial_characteristics_when_value_is_integral_constant()
     {
@@ -29,6 +32,9 @@ internal sealed class ClassificationTests
         await Assert.That(LimitPolynomial<double, int>.IsZero(value)).IsFalse();
     }
 
+    /// <summary>
+    /// Verifies: should report infinite characteristics when leading term grows without bound.
+    /// </summary>
     [Test]
     public async Task Should_report_infinite_characteristics_when_leading_term_grows_without_bound()
     {
@@ -42,6 +48,9 @@ internal sealed class ClassificationTests
         await Assert.That(LimitPolynomial<double, int>.IsNegativeInfinity(negative)).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should report zero and subnormal characteristics when polynomial is tiny zero like value.
+    /// </summary>
     [Test]
     public async Task Should_report_zero_and_subnormal_characteristics_when_polynomial_is_tiny_zero_like_value()
     {

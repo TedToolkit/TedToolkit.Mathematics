@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class ComparisonOperatorTests
 {
+    /// <summary>
+    /// Verifies: should reflect compare to results when relational operators are used.
+    /// </summary>
     [Test]
     public async Task Should_reflect_compare_to_results_when_relational_operators_are_used()
     {

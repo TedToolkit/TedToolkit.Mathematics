@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class ClampTests
 {
+    /// <summary>
+    /// Verifies: should return original value when value is inside interval.
+    /// </summary>
     [Test]
     public async Task Should_return_original_value_when_value_is_inside_interval()
     {
@@ -17,6 +20,9 @@ internal sealed class ClampTests
         await Assert.That(interval.Clamp(2)).IsEqualTo(2);
     }
 
+    /// <summary>
+    /// Verifies: should return nearest endpoint when value is outside interval.
+    /// </summary>
     [Test]
     public async Task Should_return_nearest_endpoint_when_value_is_outside_interval()
     {
@@ -26,6 +32,9 @@ internal sealed class ClampTests
         await Assert.That(interval.Clamp(4)).IsEqualTo(3);
     }
 
+    /// <summary>
+    /// Verifies: should throw when interval is empty.
+    /// </summary>
     [Test]
     public async Task Should_throw_when_interval_is_empty()
     {

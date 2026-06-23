@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <Import Project="..\..\externals\TedToolkit\props\CodeAnalysis.props"/>
   <Import Project="..\..\externals\TedToolkit\props\NugetPackage.props"/>
@@ -7,6 +7,7 @@
   <PropertyGroup>
     <Title>TedToolkit.Mathematics.Interval</Title>
     <Description>A small .NET library for working with mathematical intervals and normalized sets of intervals.</Description>
+    <NoWarn>$(NoWarn);CA1724</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

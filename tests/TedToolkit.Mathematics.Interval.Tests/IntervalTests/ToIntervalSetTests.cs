@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class ToIntervalSetTests
 {
+    /// <summary>
+    /// Verifies: should wrap interval in single element set when interval is converted.
+    /// </summary>
     [Test]
     public async Task Should_wrap_interval_in_single_element_set_when_interval_is_converted()
     {

@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="IntervalEnd.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
@@ -41,6 +41,18 @@ public readonly record struct IntervalEnd<TData>
     /// <param name="value">The endpoint value.</param>
     public static implicit operator IntervalEnd<TData>(TData value)
     {
+        return FromTData(value);
+    }
+
+#pragma warning disable CA1000
+    /// <summary>
+    /// Converts a plain value into a closed interval endpoint.
+    /// </summary>
+    /// <param name="value">The endpoint value.</param>
+    /// <returns>A closed interval endpoint that wraps the supplied value.</returns>
+    public static IntervalEnd<TData> FromTData(TData value)
+    {
         return new(value);
     }
+#pragma warning restore CA1000
 }

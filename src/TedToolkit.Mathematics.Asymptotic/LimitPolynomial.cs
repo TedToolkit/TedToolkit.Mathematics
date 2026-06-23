@@ -145,7 +145,8 @@ public readonly partial struct
             count++;
             if (count is 1)
             {
-                sb.Append(polynomialTerm.ToString(coefficientFormat, exponentFormat, formatProvider));
+                sb.Append(polynomialTerm.Coefficient.ToString(coefficientFormat, formatProvider));
+                sb.Append(StringHelpers.ToX(polynomialTerm.Exponent, exponentFormat, formatProvider));
             }
             else if (count >= maxTerms)
             {
@@ -159,11 +160,7 @@ public readonly partial struct
                 sb.Append(key);
                 sb.Append(' ');
                 sb.Append(polynomialTerm.Coefficient.ToString(coefficientFormat, formatProvider).TrimStart(key));
-
-                if (polynomialTerm.Exponent != TExponent.Zero)
-                {
-                    sb.Append(StringHelpers.ToX(polynomialTerm.Exponent, exponentFormat, formatProvider));
-                }
+                sb.Append(StringHelpers.ToX(polynomialTerm.Exponent, exponentFormat, formatProvider));
             }
         }
 

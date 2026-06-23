@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class MagnitudeTests
 {
+    /// <summary>
+    /// Verifies: should choose larger magnitude when max magnitude is requested.
+    /// </summary>
     [Test]
     public async Task Should_choose_larger_magnitude_when_max_magnitude_is_requested()
     {
@@ -19,6 +22,9 @@ internal sealed class MagnitudeTests
         await Assert.That(LimitPolynomial<double, int>.MaxMagnitudeNumber(smaller, larger)).IsEqualTo(larger);
     }
 
+    /// <summary>
+    /// Verifies: should choose smaller magnitude when min magnitude is requested.
+    /// </summary>
     [Test]
     public async Task Should_choose_smaller_magnitude_when_min_magnitude_is_requested()
     {

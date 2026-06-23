@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.PolynomialTermTests;
 
 internal sealed class LimitValueTests
 {
+    /// <summary>
+    /// Verifies: should return finite value when exponent is zero.
+    /// </summary>
     [Test]
     public async Task Should_return_finite_value_when_exponent_is_zero()
     {
@@ -17,6 +20,9 @@ internal sealed class LimitValueTests
         await Assert.That(term.LimitValue).IsEqualTo(new LimitResult<double>(LimitState.FINITE, 5));
     }
 
+    /// <summary>
+    /// Verifies: should return zero finite value when exponent is negative.
+    /// </summary>
     [Test]
     public async Task Should_return_zero_finite_value_when_exponent_is_negative()
     {
@@ -25,6 +31,9 @@ internal sealed class LimitValueTests
         await Assert.That(term.LimitValue).IsEqualTo(new LimitResult<double>(LimitState.FINITE, 0));
     }
 
+    /// <summary>
+    /// Verifies: should return infinite state when exponent is positive.
+    /// </summary>
     [Test]
     public async Task Should_return_infinite_state_when_exponent_is_positive()
     {

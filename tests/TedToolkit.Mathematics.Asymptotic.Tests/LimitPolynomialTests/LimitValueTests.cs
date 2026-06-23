@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class LimitValueTests
 {
+    /// <summary>
+    /// Verifies: should forward limit value of leading term when limit value is requested.
+    /// </summary>
     [Test]
     public async Task Should_forward_limit_value_of_leading_term_when_limit_value_is_requested()
     {

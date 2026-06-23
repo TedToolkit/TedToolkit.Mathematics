@@ -9,15 +9,29 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class DivisionOperatorTests
 {
+    /// <summary>
+    /// Verifies: should compute quotient when polynomials are divided.
+    /// </summary>
     [Test]
     public async Task Should_compute_quotient_when_polynomials_are_divided()
     {
-        var dividend = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 2), new PolynomialTerm<double, int>(3, 1), new PolynomialTerm<double, int>(2, 0));
-        var divisor = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 1), new PolynomialTerm<double, int>(1, 0));
+        var dividend = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(1, 2),
+            new PolynomialTerm<double, int>(3, 1),
+            new PolynomialTerm<double, int>(2, 0));
+        var divisor = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(1, 1),
+            new PolynomialTerm<double, int>(1, 0));
 
-        await Assert.That(dividend / divisor).IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 1), new PolynomialTerm<double, int>(2, 0)));
+        await Assert.That(dividend / divisor).IsEqualTo(
+            new LimitPolynomial<double, int>(
+                new PolynomialTerm<double, int>(1, 1),
+                new PolynomialTerm<double, int>(2, 0)));
     }
 
+    /// <summary>
+    /// Verifies: should throw when divisor is zero.
+    /// </summary>
     [Test]
     public async Task Should_throw_when_divisor_is_zero()
     {

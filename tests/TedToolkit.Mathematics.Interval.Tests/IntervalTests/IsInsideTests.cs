@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class IsInsideTests
 {
+    /// <summary>
+    /// Verifies: should include closed boundaries when value matches endpoint.
+    /// </summary>
     [Test]
     public async Task Should_include_closed_boundaries_when_value_matches_endpoint()
     {
@@ -18,6 +21,9 @@ internal sealed class IsInsideTests
         await Assert.That(interval.IsInside(3)).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should exclude open boundaries when value matches endpoint.
+    /// </summary>
     [Test]
     public async Task Should_exclude_open_boundaries_when_value_matches_endpoint()
     {

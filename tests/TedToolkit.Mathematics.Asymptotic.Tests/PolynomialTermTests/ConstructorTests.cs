@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.PolynomialTermTests;
 
 internal sealed class ConstructorTests
 {
+    /// <summary>
+    /// Verifies: should create constant term when only coefficient is provided.
+    /// </summary>
     [Test]
     public async Task Should_create_constant_term_when_only_coefficient_is_provided()
     {
@@ -18,6 +21,9 @@ internal sealed class ConstructorTests
         await Assert.That(term.Exponent).IsEqualTo(0);
     }
 
+    /// <summary>
+    /// Verifies: should normalize exponent to zero when coefficient is zero.
+    /// </summary>
     [Test]
     public async Task Should_normalize_exponent_to_zero_when_coefficient_is_zero()
     {
@@ -26,22 +32,28 @@ internal sealed class ConstructorTests
         await Assert.That(term.Exponent).IsEqualTo(0);
     }
 
+    /// <summary>
+    /// Verifies: should throw when coefficient is nan.
+    /// </summary>
     [Test]
     public async Task Should_throw_when_coefficient_is_nan()
     {
         await Assert.ThrowsAsync<ArgumentException>(() =>
         {
-            _ = new(double.NaN, 1);
+            var _ = new PolynomialTerm<double, int>(double.NaN, 1);
             return Task.CompletedTask;
         });
     }
 
+    /// <summary>
+    /// Verifies: should throw when coefficient is infinity.
+    /// </summary>
     [Test]
     public async Task Should_throw_when_coefficient_is_infinity()
     {
         await Assert.ThrowsAsync<ArgumentException>(() =>
         {
-            _ = new(double.PositiveInfinity, 1);
+            var _ = new PolynomialTerm<double, int>(double.PositiveInfinity, 1);
             return Task.CompletedTask;
         });
     }

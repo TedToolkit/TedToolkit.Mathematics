@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class ToStringTests
 {
+    /// <summary>
+    /// Verifies: should return empty symbol when set is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_empty_symbol_when_set_is_empty()
     {
@@ -22,6 +25,9 @@ internal sealed class ToStringTests
         await Assert.That(set.ToString()).IsEqualTo("Ø");
     }
 
+    /// <summary>
+    /// Verifies: should join intervals with union symbol when set contains multiple intervals.
+    /// </summary>
     [Test]
     public async Task Should_join_intervals_with_union_symbol_when_set_contains_multiple_intervals()
     {

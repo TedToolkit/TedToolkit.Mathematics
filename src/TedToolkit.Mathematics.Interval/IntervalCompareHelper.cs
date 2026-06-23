@@ -7,15 +7,34 @@
 
 namespace TedToolkit.Mathematics.Interval;
 
+/// <summary>
+/// Provides shared comparison helpers for interval endpoints and boundary types.
+/// </summary>
 internal static class IntervalCompareHelper
 {
+    /// <summary>
+    /// Gets the boundary comparer that orders closed minima before open minima.
+    /// </summary>
     internal static IComparer<BoundaryType> MinimumBoundaryTypeComparerInstance { get; } =
         new MinimumBoundaryTypeComparer();
 
+    /// <summary>
+    /// Gets the boundary comparer that orders open maxima before closed maxima.
+    /// </summary>
     internal static IComparer<BoundaryType> MaximumBoundaryTypeComparerInstance { get; } =
         new MaximumBoundaryTypeComparer();
 
-    internal static int CompareIntervalEnd<TData>(scoped in IntervalEnd<TData> left, scoped in IntervalEnd<TData> right,
+    /// <summary>
+    /// Compares two interval endpoints using the supplied boundary-type ordering.
+    /// </summary>
+    /// <typeparam name="TData">The endpoint value type.</typeparam>
+    /// <param name="left">The left endpoint.</param>
+    /// <param name="right">The right endpoint.</param>
+    /// <param name="comparer">The comparer used when both endpoint values are equal.</param>
+    /// <returns>A signed comparison result.</returns>
+    internal static int CompareIntervalEnd<TData>(
+        scoped in IntervalEnd<TData> left,
+        scoped in IntervalEnd<TData> right,
         IComparer<BoundaryType> comparer)
         where TData : IComparable<TData>
     {

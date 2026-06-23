@@ -11,6 +11,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class ParseTests
 {
+    /// <summary>
+    /// Verifies: should throw not supported exception when parse overloads are called.
+    /// </summary>
     [Test]
     public async Task Should_throw_not_supported_exception_when_parse_overloads_are_called()
     {
@@ -22,12 +25,19 @@ internal sealed class ParseTests
             .Throws<NotSupportedException>();
     }
 
+    /// <summary>
+    /// Verifies: should return false or throw consistently when try parse overloads are called.
+    /// </summary>
     [Test]
     public async Task Should_return_false_or_throw_consistently_when_try_parse_overloads_are_called()
     {
-        await Assert.That(() => LimitPolynomial<double, int>.TryParse("1", provider: null, out _)).Throws<NotSupportedException>();
-        await Assert.That(() => LimitPolynomial<double, int>.TryParse("1".AsSpan(), provider: null, out _)).Throws<NotSupportedException>();
-        await Assert.That(LimitPolynomial<double, int>.TryParse("1", NumberStyles.Number, provider: null, out _)).IsFalse();
-        await Assert.That(LimitPolynomial<double, int>.TryParse("1".AsSpan(), NumberStyles.Number, provider: null, out _)).IsFalse();
+        await Assert.That(() => LimitPolynomial<double, int>.TryParse("1", provider: null, out _))
+            .Throws<NotSupportedException>();
+        await Assert.That(() => LimitPolynomial<double, int>.TryParse("1".AsSpan(), provider: null, out _))
+            .Throws<NotSupportedException>();
+        await Assert.That(LimitPolynomial<double, int>.TryParse("1", NumberStyles.Number, provider: null, out _))
+            .IsFalse();
+        await Assert.That(LimitPolynomial<double, int>.TryParse("1".AsSpan(), NumberStyles.Number, provider: null, out _))
+            .IsFalse();
     }
 }

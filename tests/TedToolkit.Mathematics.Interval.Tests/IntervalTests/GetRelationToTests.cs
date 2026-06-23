@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class GetRelationToTests
 {
+    /// <summary>
+    /// Verifies: should return equal when intervals have same membership.
+    /// </summary>
     [Test]
     public async Task Should_return_equal_when_intervals_have_same_membership()
     {
@@ -18,6 +21,9 @@ internal sealed class GetRelationToTests
         await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.Equal);
     }
 
+    /// <summary>
+    /// Verifies: should return proper subset when left is strictly contained.
+    /// </summary>
     [Test]
     public async Task Should_return_proper_subset_when_left_is_strictly_contained()
     {
@@ -30,6 +36,9 @@ internal sealed class GetRelationToTests
         await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.ProperSubset);
     }
 
+    /// <summary>
+    /// Verifies: should return proper superset when right is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_proper_superset_when_right_is_empty()
     {
@@ -42,6 +51,9 @@ internal sealed class GetRelationToTests
         await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.ProperSuperset);
     }
 
+    /// <summary>
+    /// Verifies: should return disjoint when intervals do not share any value.
+    /// </summary>
     [Test]
     public async Task Should_return_disjoint_when_intervals_do_not_share_any_value()
     {
@@ -57,6 +69,9 @@ internal sealed class GetRelationToTests
         await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.Disjoint);
     }
 
+    /// <summary>
+    /// Verifies: should return overlapping when intervals share only part of their values.
+    /// </summary>
     [Test]
     public async Task Should_return_overlapping_when_intervals_share_only_part_of_their_values()
     {

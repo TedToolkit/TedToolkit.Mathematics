@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class EqualsTests
 {
+    /// <summary>
+    /// Verifies: should treat polynomials with same terms as equal when equals is called.
+    /// </summary>
     [Test]
     public async Task Should_treat_polynomials_with_same_terms_as_equal_when_equals_is_called()
     {
@@ -22,6 +25,9 @@ internal sealed class EqualsTests
         await Assert.That(left.GetHashCode()).IsEqualTo(right.GetHashCode());
     }
 
+    /// <summary>
+    /// Verifies: should only compare leading term when growth rate equality is checked.
+    /// </summary>
     [Test]
     public async Task Should_only_compare_leading_term_when_growth_rate_equality_is_checked()
     {

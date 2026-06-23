@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.RelationTypeTests;
 
 internal sealed class PropertyTests
 {
+    /// <summary>
+    /// Verifies: should expose expected flags when relation is disjoint.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_flags_when_relation_is_disjoint()
     {
@@ -20,6 +23,9 @@ internal sealed class PropertyTests
         await Assert.That(relation.IsSuperset).IsFalse();
     }
 
+    /// <summary>
+    /// Verifies: should expose expected flags when relation is equal.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_flags_when_relation_is_equal()
     {
@@ -31,6 +37,9 @@ internal sealed class PropertyTests
         await Assert.That(relation.IsIntersecting).IsTrue();
     }
 
+    /// <summary>
+    /// Verifies: should expose expected flags when relation is overlapping.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_flags_when_relation_is_overlapping()
     {
@@ -42,6 +51,9 @@ internal sealed class PropertyTests
         await Assert.That(relation.IsSuperset).IsFalse();
     }
 
+    /// <summary>
+    /// Verifies: should expose expected flags when relation is proper subset.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_flags_when_relation_is_proper_subset()
     {
@@ -52,6 +64,9 @@ internal sealed class PropertyTests
         await Assert.That(relation.IsSuperset).IsFalse();
     }
 
+    /// <summary>
+    /// Verifies: should expose expected flags when relation is proper superset.
+    /// </summary>
     [Test]
     public async Task Should_expose_expected_flags_when_relation_is_proper_superset()
     {

@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class CompareToTests
 {
+    /// <summary>
+    /// Verifies: should compare highest different exponent first when polynomials differ.
+    /// </summary>
     [Test]
     public async Task Should_compare_highest_different_exponent_first_when_polynomials_differ()
     {
@@ -19,6 +22,9 @@ internal sealed class CompareToTests
         await Assert.That(right.CompareTo(left)).IsLessThan(0);
     }
 
+    /// <summary>
+    /// Verifies: should fall back to coefficients when exponents match.
+    /// </summary>
     [Test]
     public async Task Should_fall_back_to_coefficients_when_exponents_match()
     {

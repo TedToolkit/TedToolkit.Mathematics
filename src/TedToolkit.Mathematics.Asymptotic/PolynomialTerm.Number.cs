@@ -8,8 +8,20 @@
 namespace TedToolkit.Mathematics.Asymptotic;
 
 public readonly partial record struct PolynomialTerm<TCoefficient, TExponent> :
+    IComparable,
     IComparable<PolynomialTerm<TCoefficient, TExponent>>
 {
+    /// <inheritdoc />
+    public int CompareTo(object? obj)
+    {
+        return obj switch
+        {
+            null => 1,
+            PolynomialTerm<TCoefficient, TExponent> other => CompareTo(other),
+            _ => throw new InvalidOperationException(),
+        };
+    }
+
     /// <inheritdoc />
     public int CompareTo(PolynomialTerm<TCoefficient, TExponent> other)
     {
@@ -34,6 +46,50 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent> :
         }
 
         return Coefficient.CompareTo(other.Coefficient);
+    }
+
+    /// <summary>
+    /// Determines whether one term compares greater than another.
+    /// </summary>
+    /// <param name="left">The left-hand term.</param>
+    /// <param name="right">The right-hand term.</param>
+    public static bool operator >(in PolynomialTerm<TCoefficient, TExponent> left,
+        in PolynomialTerm<TCoefficient, TExponent> right)
+    {
+        return left.CompareTo(right) > 0;
+    }
+
+    /// <summary>
+    /// Determines whether one term compares greater than or equal to another.
+    /// </summary>
+    /// <param name="left">The left-hand term.</param>
+    /// <param name="right">The right-hand term.</param>
+    public static bool operator >=(in PolynomialTerm<TCoefficient, TExponent> left,
+        in PolynomialTerm<TCoefficient, TExponent> right)
+    {
+        return left.CompareTo(right) >= 0;
+    }
+
+    /// <summary>
+    /// Determines whether one term compares less than another.
+    /// </summary>
+    /// <param name="left">The left-hand term.</param>
+    /// <param name="right">The right-hand term.</param>
+    public static bool operator <(in PolynomialTerm<TCoefficient, TExponent> left,
+        in PolynomialTerm<TCoefficient, TExponent> right)
+    {
+        return left.CompareTo(right) < 0;
+    }
+
+    /// <summary>
+    /// Determines whether one term compares less than or equal to another.
+    /// </summary>
+    /// <param name="left">The left-hand term.</param>
+    /// <param name="right">The right-hand term.</param>
+    public static bool operator <=(in PolynomialTerm<TCoefficient, TExponent> left,
+        in PolynomialTerm<TCoefficient, TExponent> right)
+    {
+        return left.CompareTo(right) <= 0;
     }
 
     /// <summary>

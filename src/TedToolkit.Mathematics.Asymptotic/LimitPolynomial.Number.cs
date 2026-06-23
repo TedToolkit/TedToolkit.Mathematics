@@ -510,7 +510,7 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
         where TOther : INumberBase<TOther>
     {
         if (TryGetConstant(value, out var constant)
-            && TOther.TryConvertFromChecked(constant, out result))
+            && TryConvertConstantChecked(constant, out result))
         {
             return true;
         }
@@ -526,7 +526,7 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
         where TOther : INumberBase<TOther>
     {
         if (TryGetConstant(value, out var constant)
-            && TOther.TryConvertFromSaturating(constant, out result))
+            && TryConvertConstantSaturating(constant, out result))
         {
             return true;
         }
@@ -542,7 +542,7 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
         where TOther : INumberBase<TOther>
     {
         if (TryGetConstant(value, out var constant)
-            && TOther.TryConvertFromTruncating(constant, out result))
+            && TryConvertConstantTruncating(constant, out result))
         {
             return true;
         }
@@ -629,5 +629,50 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
 
         constant = default!;
         return false;
+    }
+
+    private static bool TryConvertConstantChecked<TOther>(
+        TCoefficient constant,
+        [MaybeNullWhen(false)] out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        if (constant is TOther sameType)
+        {
+            result = sameType;
+            return true;
+        }
+
+        return TCoefficient.TryConvertToChecked(constant, out result)
+            || TOther.TryConvertFromChecked(constant, out result);
+    }
+
+    private static bool TryConvertConstantSaturating<TOther>(
+        TCoefficient constant,
+        [MaybeNullWhen(false)] out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        if (constant is TOther sameType)
+        {
+            result = sameType;
+            return true;
+        }
+
+        return TCoefficient.TryConvertToSaturating(constant, out result)
+            || TOther.TryConvertFromSaturating(constant, out result);
+    }
+
+    private static bool TryConvertConstantTruncating<TOther>(
+        TCoefficient constant,
+        [MaybeNullWhen(false)] out TOther result)
+        where TOther : INumberBase<TOther>
+    {
+        if (constant is TOther sameType)
+        {
+            result = sameType;
+            return true;
+        }
+
+        return TCoefficient.TryConvertToTruncating(constant, out result)
+            || TOther.TryConvertFromTruncating(constant, out result);
     }
 }

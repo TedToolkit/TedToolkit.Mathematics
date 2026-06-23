@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalTests;
 
 internal sealed class ToStringTests
 {
+    /// <summary>
+    /// Verifies: should return empty symbol when interval is empty.
+    /// </summary>
     [Test]
     public async Task Should_return_empty_symbol_when_interval_is_empty()
     {
@@ -20,6 +23,9 @@ internal sealed class ToStringTests
         await Assert.That(interval.ToString()).IsEqualTo("Ø");
     }
 
+    /// <summary>
+    /// Verifies: should return scalar value when interval is singleton.
+    /// </summary>
     [Test]
     public async Task Should_return_scalar_value_when_interval_is_singleton()
     {
@@ -28,6 +34,9 @@ internal sealed class ToStringTests
         await Assert.That(interval.ToString()).IsEqualTo("1");
     }
 
+    /// <summary>
+    /// Verifies: should return mathematical interval notation when interval has range.
+    /// </summary>
     [Test]
     public async Task Should_return_mathematical_interval_notation_when_interval_has_range()
     {

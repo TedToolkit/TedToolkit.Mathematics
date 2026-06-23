@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Interval.Tests.IntervalSetTests;
 
 internal sealed class ConstructorTests
 {
+    /// <summary>
+    /// Verifies: should drop empty intervals when set is created.
+    /// </summary>
     [Test]
     public async Task Should_drop_empty_intervals_when_set_is_created()
     {
@@ -24,6 +27,9 @@ internal sealed class ConstructorTests
         await Assert.That(set.Intervals[0]).IsEqualTo(nonEmpty);
     }
 
+    /// <summary>
+    /// Verifies: should merge overlapping and adjacent intervals when set is normalized.
+    /// </summary>
     [Test]
     public async Task Should_merge_overlapping_and_adjacent_intervals_when_set_is_normalized()
     {
@@ -38,6 +44,9 @@ internal sealed class ConstructorTests
         await Assert.That(set.Intervals[1]).IsEqualTo(third);
     }
 
+    /// <summary>
+    /// Verifies: should create single interval set when constructor receives one interval.
+    /// </summary>
     [Test]
     public async Task Should_create_single_interval_set_when_constructor_receives_one_interval()
     {

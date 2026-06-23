@@ -128,11 +128,7 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
         }
 
         sb.Append(Coefficient.ToString(coefficientFormat, formatProvider));
-
-        if (Exponent != TExponent.Zero)
-        {
-            sb.Append(StringHelpers.ToX(Exponent, exponentFormat, formatProvider));
-        }
+        sb.Append(StringHelpers.ToX(Exponent, exponentFormat, formatProvider));
 
         return sb.ToString();
     }

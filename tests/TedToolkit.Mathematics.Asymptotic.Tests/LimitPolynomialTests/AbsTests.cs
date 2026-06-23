@@ -9,6 +9,9 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class AbsTests
 {
+    /// <summary>
+    /// Verifies: should return positive equivalent when polynomial is negative.
+    /// </summary>
     [Test]
     public async Task Should_return_positive_equivalent_when_polynomial_is_negative()
     {

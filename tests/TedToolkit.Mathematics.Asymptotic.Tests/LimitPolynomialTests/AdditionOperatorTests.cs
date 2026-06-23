@@ -9,17 +9,31 @@ namespace TedToolkit.Mathematics.Asymptotic.Tests.LimitPolynomialTests;
 
 internal sealed class AdditionOperatorTests
 {
+    /// <summary>
+    /// Verifies: should combine like terms when polynomials are added.
+    /// </summary>
     [Test]
     public async Task Should_combine_like_terms_when_polynomials_are_added()
     {
-        var left = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(2, 3), new PolynomialTerm<double, int>(1, 0));
-        var right = new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(5, 3), new PolynomialTerm<double, int>(4, 1));
+        var left = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(2, 3),
+            new PolynomialTerm<double, int>(1, 0));
+        var right = new LimitPolynomial<double, int>(
+            new PolynomialTerm<double, int>(5, 3),
+            new PolynomialTerm<double, int>(4, 1));
 
         var result = left + right;
 
-        await Assert.That(result).IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(7, 3), new PolynomialTerm<double, int>(4, 1), new PolynomialTerm<double, int>(1, 0)));
+        await Assert.That(result).IsEqualTo(
+            new LimitPolynomial<double, int>(
+                new PolynomialTerm<double, int>(7, 3),
+                new PolynomialTerm<double, int>(4, 1),
+                new PolynomialTerm<double, int>(1, 0)));
     }
 
+    /// <summary>
+    /// Verifies: should preserve polynomial when unary plus is applied.
+    /// </summary>
     [Test]
     public async Task Should_preserve_polynomial_when_unary_plus_is_applied()
     {
