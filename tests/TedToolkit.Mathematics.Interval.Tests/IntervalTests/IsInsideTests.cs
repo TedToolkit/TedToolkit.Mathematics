@@ -36,4 +36,18 @@ internal sealed class IsInsideTests
         await Assert.That(interval.IsInside(3)).IsFalse();
         await Assert.That(interval.IsInside(2)).IsTrue();
     }
+
+    /// <summary>
+    /// Verifies: should reject values outside interval when value is less than minimum or greater than maximum.
+    /// </summary>
+    [Test]
+    [Arguments(0)]
+    [Arguments(4)]
+    public async Task Should_reject_values_outside_interval_when_value_is_less_than_minimum_or_greater_than_maximum(
+        int value)
+    {
+        var interval = Interval<int>.Create(1, 3, out _);
+
+        await Assert.That(interval.IsInside(value)).IsFalse();
+    }
 }

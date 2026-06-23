@@ -45,4 +45,26 @@ internal sealed class UnionTests
         await Assert.That(result.Intervals[0]).IsEqualTo(Interval<int>.Create(1, 4, out _));
         await Assert.That(result.Intervals[1]).IsEqualTo(Interval<int>.Create(5, 6, out _));
     }
+
+    /// <summary>
+    /// Verifies: should keep intervals separate when they only touch at open boundaries.
+    /// </summary>
+    [Test]
+    public async Task Should_keep_intervals_separate_when_they_only_touch_at_open_boundaries()
+    {
+        var left = new IntervalSet<int>(Interval<int>.Create(
+            new IntervalEnd<int>(1, BoundaryType.CLOSED),
+            new IntervalEnd<int>(3, BoundaryType.OPEN),
+            out _));
+        var right = new IntervalSet<int>(Interval<int>.Create(
+            new IntervalEnd<int>(3, BoundaryType.OPEN),
+            new IntervalEnd<int>(5, BoundaryType.CLOSED),
+            out _));
+
+        var result = left.Union(right);
+
+        await Assert.That(result.Intervals.Count).IsEqualTo(2);
+        await Assert.That(result.Intervals[0]).IsEqualTo(left.Intervals[0]);
+        await Assert.That(result.Intervals[1]).IsEqualTo(right.Intervals[0]);
+    }
 }
