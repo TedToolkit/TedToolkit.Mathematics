@@ -37,24 +37,24 @@ internal sealed class ToStringTests
     }
 
     /// <summary>
-    /// Verifies: should append limit variable when term has non zero exponent.
+    /// Verifies: should return omega term without limit prefix when term has non-zero exponent.
     /// </summary>
     [Test]
-    public async Task Should_append_limit_variable_when_term_has_non_zero_exponent()
+    public async Task Should_return_x_term_without_limit_prefix_when_term_has_non_zero_exponent()
     {
         var term = new PolynomialTerm<double, int>(2, 3);
 
-        await Assert.That(term.ToString()).IsEqualTo("lim[x→∞] 2x³");
+        await Assert.That(term.ToString()).IsEqualTo("2\u03C9³");
     }
 
     /// <summary>
-    /// Verifies: should respect custom format when term is formatted.
+    /// Verifies: should respect custom format without limit prefix when term is formatted.
     /// </summary>
     [Test]
-    public async Task Should_respect_custom_format_when_term_is_formatted()
+    public async Task Should_respect_custom_format_without_limit_prefix_when_term_is_formatted()
     {
         var term = new PolynomialTerm<double, int>(12.5, -2);
 
-        await Assert.That(term.ToString("0.0", "0", null)).IsEqualTo("lim[x→∞] 12.5x⁻²");
+        await Assert.That(term.ToString("0.0", "0", null)).IsEqualTo("12.5\u03C9⁻²");
     }
 }

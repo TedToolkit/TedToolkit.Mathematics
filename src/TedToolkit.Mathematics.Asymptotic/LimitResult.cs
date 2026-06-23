@@ -7,6 +7,8 @@
 
 using System.Numerics;
 
+using Cysharp.Text;
+
 namespace TedToolkit.Mathematics.Asymptotic;
 
 /// <summary>
@@ -38,6 +40,12 @@ public readonly record struct LimitResult<TValue>(LimitState State, TValue Value
 
             case LimitState.NEGATIVE_INFINITY:
                 return "-∞";
+
+            case LimitState.POSITIVE_INFINITESIMAL:
+                return ZString.Concat(Value.ToString(format, formatProvider), '⁺');
+
+            case LimitState.NEGATIVE_INFINITESIMAL:
+                return ZString.Concat(Value.ToString(format, formatProvider), '⁻');
 
             default:
                 throw new NotSupportedException();

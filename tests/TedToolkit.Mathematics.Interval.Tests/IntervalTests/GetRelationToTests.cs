@@ -80,4 +80,22 @@ internal sealed class GetRelationToTests
 
         await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.Overlapping);
     }
+
+    /// <summary>
+    /// Verifies: should return equal when both intervals are empty.
+    /// </summary>
+    [Test]
+    public async Task Should_return_equal_when_both_intervals_are_empty()
+    {
+        var left = Interval<int>.Create(
+            new IntervalEnd<int>(2, BoundaryType.OPEN),
+            new IntervalEnd<int>(2, BoundaryType.OPEN),
+            out _);
+        var right = Interval<int>.Create(
+            new IntervalEnd<int>(5, BoundaryType.OPEN),
+            new IntervalEnd<int>(5, BoundaryType.OPEN),
+            out _);
+
+        await Assert.That(left.GetRelationTo(right)).IsEqualTo(RelationType.Equal);
+    }
 }

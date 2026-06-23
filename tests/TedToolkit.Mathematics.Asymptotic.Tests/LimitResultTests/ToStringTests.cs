@@ -42,4 +42,26 @@ internal sealed class ToStringTests
 
         await Assert.That(result.ToString()).IsEqualTo("-∞");
     }
+
+    /// <summary>
+    /// Verifies: should format positive infinitesimal symbol when state is positive infinitesimal.
+    /// </summary>
+    [Test]
+    public async Task Should_format_positive_infinitesimal_symbol_when_state_is_positive_infinitesimal()
+    {
+        var result = new LimitResult<double>(LimitState.POSITIVE_INFINITESIMAL, 0);
+
+        await Assert.That(result.ToString()).IsEqualTo("0⁺");
+    }
+
+    /// <summary>
+    /// Verifies: should format negative infinitesimal symbol when state is negative infinitesimal.
+    /// </summary>
+    [Test]
+    public async Task Should_format_negative_infinitesimal_symbol_when_state_is_negative_infinitesimal()
+    {
+        var result = new LimitResult<double>(LimitState.NEGATIVE_INFINITESIMAL, 0);
+
+        await Assert.That(result.ToString()).IsEqualTo("0⁻");
+    }
 }

@@ -78,41 +78,6 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
     }
 
     /// <summary>
-    /// Converts a polynomial term to its limit result.
-    /// </summary>
-    /// <param name="term">The term to evaluate.</param>
-    public static implicit operator LimitResult<TCoefficient>(in PolynomialTerm<TCoefficient, TExponent> term)
-    {
-        return term.LimitValue;
-    }
-
-    /// <summary>
-    /// Gets the limit contributed by this term as <c>x</c> approaches infinity.
-    /// </summary>
-    public LimitResult<TCoefficient> LimitValue
-    {
-        get
-        {
-            if (Exponent == TExponent.Zero)
-            {
-                return new(LimitState.FINITE, Coefficient);
-            }
-
-            if (Exponent < TExponent.Zero)
-            {
-                return new(LimitState.FINITE, TCoefficient.Zero);
-            }
-
-            if (Coefficient > TCoefficient.Zero)
-            {
-                return new(LimitState.POSITIVE_INFINITY, TCoefficient.Zero);
-            }
-
-            return new(LimitState.NEGATIVE_INFINITY, TCoefficient.Zero);
-        }
-    }
-
-    /// <summary>
     /// Formats the term using separate coefficient and exponent format strings.
     /// </summary>
     /// <param name="coefficientFormat">The optional coefficient format string.</param>
@@ -122,14 +87,8 @@ public readonly partial record struct PolynomialTerm<TCoefficient, TExponent>
     public string ToString(string? coefficientFormat, string? exponentFormat, IFormatProvider? formatProvider)
     {
         using var sb = ZString.CreateStringBuilder();
-        if (Exponent != TExponent.Zero)
-        {
-            sb.Append(StringHelpers.LIMIT_PREFIX);
-        }
-
         sb.Append(Coefficient.ToString(coefficientFormat, formatProvider));
-        sb.Append(StringHelpers.ToX(Exponent, exponentFormat, formatProvider));
-
+        sb.Append(StringHelpers.ToOmega(Exponent, exponentFormat, formatProvider));
         return sb.ToString();
     }
 

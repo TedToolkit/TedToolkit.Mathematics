@@ -60,4 +60,19 @@ internal sealed class ClassificationTests
         await Assert.That(LimitPolynomial<double, int>.IsZero(zero)).IsTrue();
         await Assert.That(LimitPolynomial<double, int>.IsSubnormal(subnormal)).IsTrue();
     }
+
+    /// <summary>
+    /// Verifies: should report zero as finite but neither positive nor negative nor normal.
+    /// </summary>
+    [Test]
+    public async Task Should_report_zero_as_finite_but_neither_positive_nor_negative_nor_normal()
+    {
+        var zero = LimitPolynomial<double, int>.Zero;
+
+        await Assert.That(LimitPolynomial<double, int>.IsFinite(zero)).IsTrue();
+        await Assert.That(LimitPolynomial<double, int>.IsInfinity(zero)).IsFalse();
+        await Assert.That(LimitPolynomial<double, int>.IsPositive(zero)).IsFalse();
+        await Assert.That(LimitPolynomial<double, int>.IsNegative(zero)).IsFalse();
+        await Assert.That(LimitPolynomial<double, int>.IsNormal(zero)).IsFalse();
+    }
 }

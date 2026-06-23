@@ -34,4 +34,20 @@ internal sealed class CreateTests
         await Assert.That(interval.Min).IsEqualTo(new IntervalEnd<int>(1));
         await Assert.That(interval.Max).IsEqualTo(new IntervalEnd<int>(3));
     }
+
+    /// <summary>
+    /// Verifies: should preserve equal endpoints without marking interval as reversed.
+    /// </summary>
+    [Test]
+    public async Task Should_preserve_equal_endpoints_without_marking_interval_as_reversed()
+    {
+        var interval = Interval<int>.Create(
+            new IntervalEnd<int>(2, BoundaryType.OPEN),
+            new IntervalEnd<int>(2, BoundaryType.CLOSED),
+            out var isReversed);
+
+        await Assert.That(isReversed).IsFalse();
+        await Assert.That(interval.Min).IsEqualTo(new IntervalEnd<int>(2, BoundaryType.OPEN));
+        await Assert.That(interval.Max).IsEqualTo(new IntervalEnd<int>(2, BoundaryType.CLOSED));
+    }
 }

@@ -23,4 +23,20 @@ internal sealed class StaticPropertyTests
         await Assert.That(LimitPolynomial<double, int>.MultiplicativeIdentity).IsEqualTo(LimitPolynomial<double, int>.One);
         await Assert.That(LimitPolynomial<double, int>.Radix).IsEqualTo(2);
     }
+
+    /// <summary>
+    /// Verifies: should expose canonical infinity and infinitesimal values when static properties are read.
+    /// </summary>
+    [Test]
+    public async Task Should_expose_canonical_infinity_and_infinitesimal_values_when_static_properties_are_read()
+    {
+        await Assert.That(LimitPolynomial<double, int>.PositiveInfinity)
+            .IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, 1)));
+        await Assert.That(LimitPolynomial<double, int>.NegativeInfinity)
+            .IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(-1, 1)));
+        await Assert.That(LimitPolynomial<double, int>.PositiveInfinitesimal)
+            .IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(1, -1)));
+        await Assert.That(LimitPolynomial<double, int>.NegativeInfinitesimal)
+            .IsEqualTo(new LimitPolynomial<double, int>(new PolynomialTerm<double, int>(-1, -1)));
+    }
 }
