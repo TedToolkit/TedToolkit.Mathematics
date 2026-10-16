@@ -8,6 +8,7 @@
     <Title>TedToolkit.Mathematics.Interval</Title>
     <Description>A small .NET library for working with mathematical intervals and normalized sets of intervals.</Description>
     <NoWarn>$(NoWarn);CA1724</NoWarn>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
