@@ -8,6 +8,7 @@
     <Description>A small .NET library for modeling asymptotic expressions and comparing their behavior as x approaches positive infinity.</Description>
     <TargetFrameworks>net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <NoWarn>$(NoWarn);CA1000;CA2225</NoWarn>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
