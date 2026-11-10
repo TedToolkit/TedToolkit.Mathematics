@@ -15,4 +15,9 @@
     <PackageReference Include="ZString" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Include="../../.agents/skills/model-interval-boundaries/**/*"
+          Pack="true" PackagePath="skills/model-interval-boundaries/" />
+  </ItemGroup>
 </Project>
