@@ -91,27 +91,17 @@ src/
 tests/
   TedToolkit.Mathematics.Asymptotic.Tests/
   TedToolkit.Mathematics.Interval.Tests/
-Build/
-  Build.csproj
-externals/
-  TedToolkit/
 ```
 
-The `externals/TedToolkit` submodule provides shared build props and repository build infrastructure.
+MSBuild restores the shared configuration from the version of `TedToolkit.Build.Sdk` pinned in `global.json`.
 
 ## Development
 
-Clone with submodules:
+Clone the repository:
 
 ```shell
-git clone --recursive <repository-url>
+git clone <repository-url>
 cd TedToolkit.Mathematics
-```
-
-If needed later:
-
-```shell
-git submodule update --init --recursive
 ```
 
 Build the solution:
@@ -127,11 +117,7 @@ dotnet run --project tests/TedToolkit.Mathematics.Asymptotic.Tests/TedToolkit.Ma
 dotnet run --project tests/TedToolkit.Mathematics.Interval.Tests/TedToolkit.Mathematics.Interval.Tests.csproj -c Release
 ```
 
-Run the repository pipeline:
-
-```shell
-dotnet run --project Build/Build.csproj
-```
+GitHub Actions uses the shared TedToolkit build workflow.
 
 ## License
 
