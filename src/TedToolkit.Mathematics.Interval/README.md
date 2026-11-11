@@ -125,6 +125,7 @@ Console.WriteLine(current.Difference(removed)); // [1, 3) ∪ (4, 6]
 - `net8.0`
 - `net9.0`
 - `net10.0`
+- `net11.0`
 - `net472`
 - `net48`
 - `netstandard2.0`

@@ -176,3 +176,4 @@ The default string form uses `ω` notation, for example `(2ω³ - 4ω + 6)`.
 - `net8.0`
 - `net9.0`
 - `net10.0`
+- `net11.0`

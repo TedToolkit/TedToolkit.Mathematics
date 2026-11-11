@@ -614,7 +614,7 @@ public readonly partial struct LimitPolynomial<TCoefficient, TExponent> :
     /// <inheritdoc />
     public static LimitPolynomial<TCoefficient, TExponent> MultiplicativeIdentity { get; } = One;
 
-    /// <inheritdoc cref="IBinaryInteger{TSelf}.DivRem"/>
+    /// <inheritdoc cref="IBinaryInteger{TSelf}.DivRem(TSelf, TSelf)"/>
     public static (LimitPolynomial<TCoefficient, TExponent> Quotient, LimitPolynomial<TCoefficient, TExponent>
         Remainder) DivRem(
             in LimitPolynomial<TCoefficient, TExponent> dividend,
