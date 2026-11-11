@@ -130,7 +130,7 @@ dotnet run --project tests/TedToolkit.Mathematics.Interval.Tests/TedToolkit.Math
 Run the repository pipeline:
 
 ```shell
-dotnet run --project Build/Build.csproj
+dotnet build TedToolkit.Mathematics.slnx -c Release
 ```
 
 ## License
