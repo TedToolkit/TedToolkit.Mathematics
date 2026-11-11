@@ -46,7 +46,7 @@ Key public types:
 - `LimitResult<TValue>`
 - `LimitState`
 
-Target frameworks: `net7.0`, `net8.0`, `net9.0`, `net10.0`.
+Target frameworks: `net7.0`, `net8.0`, `net9.0`, `net10.0`, `net11.0`.
 
 Package documentation: [src/TedToolkit.Mathematics.Asymptotic/README.md](src/TedToolkit.Mathematics.Asymptotic/README.md)
 
@@ -78,7 +78,7 @@ Key public types:
 - `BoundaryType`
 - `RelationType`
 
-Target frameworks: `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`, `net472`, `net48`, `netstandard2.0`, `netstandard2.1`.
+Target frameworks: `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`, `net11.0`, `net472`, `net48`, `netstandard2.0`, `netstandard2.1`.
 
 Package documentation: [src/TedToolkit.Mathematics.Interval/README.md](src/TedToolkit.Mathematics.Interval/README.md)
 
